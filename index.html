@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskEarn PK — Digital Micro-Task & Rewards Platform</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for crisp fintech icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            950: '#040812',
+                            900: '#070E20',
+                            850: '#0B152E',
+                            800: '#101D3D',
+                            700: '#1A2B54',
+                        },
+                        gold: {
+                            300: '#FDE68A',
+                            400: '#FBBF24',
+                            500: '#F59E0B',
+                            600: '#D97706',
+                        },
+                        electric: {
+                            400: '#60A5FA',
+                            500: '#3B82F6',
+                            600: '#2563EB',
+                        }
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 2.5s infinite ease-in-out',
+                        'float': 'float 4s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.35s ease-out forwards',
+                        'slide-up': 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 12px rgba(245, 158, 11, 0.45), 0 0 24px rgba(245, 158, 11, 0.2)' },
+                            '50%': { boxShadow: '0 0 22px rgba(251, 191, 36, 0.8), 0 0 38px rgba(245, 158, 11, 0.4)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-6px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(18px) scale(0.98)' },
+                            '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #040812;
+            color: #F8FAFC;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(37, 99, 235, 0.14) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(245, 158, 11, 0.09) 0%, transparent 45%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: linear-gradient(145deg, rgba(16, 29, 61, 0.85) 0%, rgba(7, 14, 32, 0.94) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(59, 130, 246, 0.18);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+        }
+
+        .glass-card-gold {
+            background: linear-gradient(145deg, rgba(22, 34, 66, 0.92) 0%, rgba(10, 17, 36, 0.96) 100%);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(245, 158, 11, 0.38);
+            box-shadow: 0 20px 45px -15px rgba(245, 158, 11, 0.15);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #040812;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1A2B54;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3B82F6;
+        }
+
+        /* Gold Gradient Text */
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #FDE68A 0%, #FBBF24 50%, #D97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Gold Button */
+        .btn-gold {
+            background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 55%, #D97706 100%);
+            color: #040812;
+            font-weight: 700;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-gold:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.08);
+            box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.45);
+        }
+        .btn-gold:active {
+            transform: translateY(0);
+        }
+
+        /* Blue Fintech Button */
+        .btn-blue {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+            color: #FFFFFF;
+            font-weight: 600;
+            transition: all 0.25s ease;
+        }
+        .btn-blue:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.45);
+        }
+
+        /* Input Styling */
+        .fintech-input {
+            background-color: rgba(4, 8, 18, 0.75);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            color: #F8FAFC;
+            transition: all 0.2s ease;
+        }
+        .fintech-input:focus {
+            outline: none;
+            border-color: #FBBF24;
+            box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.15);
+            background-color: rgba(7, 14, 32, 0.95);
+        }
+
+        /* Shimmer effect for promo banner */
+        .shimmer-overlay {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 3.5s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-gold-500 selection:text-navy-950 flex flex-col">
+
+    <!-- ===================================================================== -->
+    <!-- 4. TOP PROMOTIONAL BANNER (Visible on EVERY screen)                  -->
+    <!-- ===================================================================== -->
+    <header class="sticky top-0 z-40 w-full bg-gradient-to-r from-navy-950 via-navy-800 to-navy-950 border-b border-gold-500/30 shadow-lg">
+        <div class="shimmer-overlay relative">
+            <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
+                <div class="flex items-center justify-center sm:justify-start gap-2.5">
+                    <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gold-500/20 border border-gold-400/50 text-gold-400 shrink-0">
+                        <i class="fa-solid fa-gift text-xs"></i>
+                    </span>
+                    <div>
+                        <p class="text-xs sm:text-sm font-bold tracking-wide text-white">
+                            MAKE YOUR DEPOSIT AND GET A BONUS OF <span class="text-gold-400 underline decoration-gold-500/50 underline-offset-2">PKR 100–500!</span>
+                        </p>
+                        <p class="text-[10px] sm:text-[11px] text-slate-300 leading-tight">
+                            *Promotional offer subject to eligibility, verified plan activation &amp; terms. Bonus tier varies by deposit plan; maximum bonus is not guaranteed for all accounts.
+                        </p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    <button onclick="handlePromoDepositClick()" class="btn-gold animate-pulse-glow px-4 py-1.5 rounded-full text-xs sm:text-sm uppercase tracking-wider flex items-center gap-1.5 cursor-pointer">
+                        <i class="fa-solid fa-bolt"></i>
+                        <span>Deposit Now</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Secondary Minimal Navbar (Shown when logged in) -->
+        <nav id="appNavbar" class="hidden bg-navy-900/95 backdrop-blur-md border-t border-slate-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+                <!-- Brand Logo -->
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-gold-400 to-amber-600 flex items-center justify-center text-navy-950 font-extrabold text-lg shadow-md">
+                        T
+                    </div>
+                    <div>
+                        <span class="font-display font-extrabold text-base sm:text-lg tracking-tight text-white">TaskEarn <span class="text-gold-400">PK</span></span>
+                    </div>
+                </div>
+
+                <!-- User Pill & Logout -->
+                <div class="flex items-center gap-3">
+                    <div class="flex flex-col text-right">
+                        <span id="navUserName" class="text-xs font-semibold text-white">Member</span>
+                        <span id="navPlanBadge" class="text-[10px] font-medium text-gold-400">Select Plan</span>
+                    </div>
+                    <button onclick="handleLogout()" title="Sign Out" class="p-2 rounded-xl bg-navy-800 hover:bg-red-500/20 text-slate-300 hover:text-red-400 border border-slate-700/70 transition text-xs flex items-center gap-1.5 cursor-pointer">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span class="hidden sm:inline">Logout</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ===================================================================== -->
+    <!-- TOAST NOTIFICATION CONTAINER                                          -->
+    <!-- ===================================================================== -->
+    <div id="toastContainer" class="fixed bottom-6 right-4 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-2 sm:px-0"></div>
+
+    <!-- ===================================================================== -->
+    <!-- MAIN APPLICATION CONTAINER                                            -->
+    <!-- ===================================================================== -->
+    <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10 pb-12">
+
+        <!-- ================================================================= -->
+        <!-- 1. PROFESSIONAL LOGIN & SIGNUP PAGE (Default Entry View)          -->
+        <!-- ================================================================= -->
+        <section id="view-auth" class="animate-fade-in max-w-5xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                <!-- Left Brand & Trust Column -->
+                <div class="lg:col-span-5 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-navy-800/90 border border-gold-500/30 text-gold-400 text-xs font-semibold">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>TaskEarn PK • Verified Digital Rewards Platform</span>
+                    </div>
+
+                    <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                        Smart Micro-Tasks, <span class="text-gold-gradient">Transparent</span> Rewards.
+                    </h1>
+
+                    <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+                        Complete daily digital tasks, track your 7-day membership cycle in real time, and request verified payouts directly to Easypaisa or JazzCash.
+                    </p>
+
+                    <!-- Feature Highlights -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3 pt-2 text-left">
+                        <div class="glass-card p-3.5 rounded-2xl flex items-center gap-3.5">
+                            <div class="w-10 h-10 rounded-xl bg-electric-500/20 border border-electric-500/30 flex items-center justify-center text-electric-400 shrink-0">
+                                <i class="fa-solid fa-calendar-check"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xs sm:text-sm font-bold text-white">7-Day Structured Cycles</h3>
+                                <p class="text-[11px] text-slate-400">Clear daily task estimates &amp; transparent cycle progress.</p>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-3.5 rounded-2xl flex items-center gap-3.5">
+                            <div class="w-10 h-10 rounded-xl bg-gold-500/20 border border-gold-500/30 flex items-center justify-center text-gold-400 shrink-0">
+                                <i class="fa-solid fa-building-columns"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xs sm:text-sm font-bold text-white">Easypaisa &amp; JazzCash Support</h3>
+                                <p class="text-[11px] text-slate-400">Manual receipt verification &amp; status tracking.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Auth Card Column -->
+                <div class="lg:col-span-7">
+                    <div class="glass-card-gold rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+                        <!-- Subtle Top Accent Glow -->
+                        <div class="absolute -top-24 -right-24 w-48 h-48 bg-gold-500/15 rounded-full blur-3xl pointer-events-none"></div>
+                        <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-electric-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+                        <!-- Auth Mode Switcher Tabs -->
+                        <div class="grid grid-cols-2 p-1.5 bg-navy-950/90 rounded-2xl border border-slate-800 mb-6 relative z-10">
+                            <button type="button" id="tabLoginBtn" onclick="toggleAuthMode('login')" class="py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 bg-gradient-to-r from-electric-600 to-electric-500 text-white shadow-md">
+                                <i class="fa-solid fa-right-to-bracket mr-1.5"></i> Member Login
+                            </button>
+                            <button type="button" id="tabSignupBtn" onclick="toggleAuthMode('signup')" class="py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 text-slate-400 hover:text-white">
+                                <i class="fa-solid fa-user-plus mr-1.5"></i> Create Account
+                            </button>
+                        </div>
+
+                        <!-- ================= LOGIN FORM ================= -->
+                        <form id="loginForm" onsubmit="handleLoginSubmit(event)" class="space-y-4 relative z-10 animate-fade-in">
+                            <div class="mb-2">
+                                <h2 class="font-display text-xl sm:text-2xl font-bold text-white">Welcome Back</h2>
+                                <p class="text-xs text-slate-400">Sign in to access your TaskEarn PK dashboard &amp; active plan.</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Email or Username</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                        <i class="fa-solid fa-user text-xs"></i>
+                                    </span>
+                                    <input type="text" id="loginIdentifier" required placeholder="e.g. ali_pk or ali@example.com" class="fintech-input w-full pl-10 pr-4 py-3 rounded-xl text-sm">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Password</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                        <i class="fa-solid fa-lock text-xs"></i>
+                                    </span>
+                                    <input type="password" id="loginPassword" required placeholder="Enter your password" class="fintech-input w-full pl-10 pr-10 py-3 rounded-xl text-sm">
+                                    <button type="button" onclick="togglePasswordVisibility('loginPassword', this)" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-gold-400">
+                                        <i class="fa-solid fa-eye text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between text-xs pt-1">
+                                <label class="inline-flex items-center gap-2 cursor-pointer text-slate-300 select-none">
+                                    <input type="checkbox" id="rememberMe" checked class="w-4 h-4 rounded border-slate-700 bg-navy-950 text-gold-500 focus:ring-gold-500">
+                                    <span>Remember Me</span>
+                                </label>
+                                <button type="button" onclick="openForgotPasswordModal()" class="text-gold-400 hover:text-gold-300 font-semibold hover:underline">
+                                    Forgot Password?
+                                </button>
+                            </div>
+
+                            <button type="submit" id="loginSubmitBtn" class="btn-gold w-full py-3.5 rounded-xl text-sm uppercase tracking-wider shadow-lg mt-2 flex items-center justify-center gap-2 cursor-pointer">
+                                <span>Login &amp; Continue</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+
+                            <p class="text-center text-xs text-slate-400 pt-2">
+                                New to TaskEarn PK? 
+                                <button type="button" onclick="toggleAuthMode('signup')" class="text-gold-400 font-bold hover:underline ml-1">Create an account now</button>
+                            </p>
+                        </form>
+
+                        <!-- ================= SIGNUP FORM ================= -->
+                        <form id="signupForm" onsubmit="handleSignupSubmit(event)" class="hidden space-y-3.5 relative z-10 animate-fade-in">
+                            <div class="mb-1">
+                                <h2 class="font-display text-xl sm:text-2xl font-bold text-white">Create Your Account</h2>
+                                <p class="text-xs text-slate-400">Register in seconds to select your 7-day membership plan.</p>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-300 mb-1">Username <span class="text-gold-400">*</span></label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                            <i class="fa-solid fa-at text-xs"></i>
+                                        </span>
+                                        <input type="text" id="signupUsername" required placeholder="hamza_pk" class="fintech-input w-full pl-9 pr-3 py-2.5 rounded-xl text-sm">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-300 mb-1">Full Name <span class="text-gold-400">*</span></label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                            <i class="fa-solid fa-id-card text-xs"></i>
+                                        </span>
+                                        <input type="text" id="signupFullName" required placeholder="Hamza Tariq" class="fintech-input w-full pl-9 pr-3 py-2.5 rounded-xl text-sm">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Email Address <span class="text-gold-400">*</span></label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                        <i class="fa-solid fa-envelope text-xs"></i>
+                                    </span>
+                                    <input type="email" id="signupEmail" required placeholder="hamza@example.com" class="fintech-input w-full pl-9 pr-3 py-2.5 rounded-xl text-sm">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-300 mb-1">Password <span class="text-gold-400">*</span></label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                            <i class="fa-solid fa-lock text-xs"></i>
+                                        </span>
+                                        <input type="password" id="signupPassword" required minlength="6" placeholder="Min 6 characters" class="fintech-input w-full pl-9 pr-9 py-2.5 rounded-xl text-sm">
+                                        <button type="button" onclick="togglePasswordVisibility('signupPassword', this)" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-gold-400">
+                                            <i class="fa-solid fa-eye text-xs"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-300 mb-1">Confirm Password <span class="text-gold-400">*</span></label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                            <i class="fa-solid fa-shield-check text-xs"></i>
+                                        </span>
+                                        <input type="password" id="signupConfirmPassword" required minlength="6" placeholder="Re-enter password" class="fintech-input w-full pl-9 pr-3 py-2.5 rounded-xl text-sm">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Referral Code <span class="text-slate-500 font-normal">(Optional)</span></label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-gold-400">
+                                        <i class="fa-solid fa-ticket text-xs"></i>
+                                    </span>
+                                    <input type="text" id="signupReferral" placeholder="e.g. TEPK2026" class="fintech-input w-full pl-9 pr-3 py-2.5 rounded-xl text-sm uppercase">
+                                </div>
+                            </div>
+
+                            <button type="submit" id="signupSubmitBtn" class="btn-gold w-full py-3.5 rounded-xl text-sm uppercase tracking-wider shadow-lg mt-2 flex items-center justify-center gap-2 cursor-pointer">
+                                <span>Create Account &amp; Choose Plan</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+
+                            <p class="text-center text-xs text-slate-400 pt-1">
+                                Already registered? 
+                                <button type="button" onclick="toggleAuthMode('login')" class="text-electric-400 font-bold hover:underline ml-1">Sign in here</button>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- 3. EASYPAISA PAYMENT SCREEN (Shown after Plan Selection)          -->
+        <!-- ================================================================= -->
+        <section id="view-payment" class="hidden animate-fade-in max-w-4xl mx-auto space-y-6">
+            <!-- Top Back & Step Indicator -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <button onclick="openPlanModal()" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-300 hover:text-gold-400 transition w-fit">
+                    <i class="fa-solid fa-arrow-left"></i> Change Selected Plan
+                </button>
+                <div class="flex items-center gap-2 text-xs">
+                    <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-semibold">1. Account Ready</span>
+                    <i class="fa-solid fa-chevron-right text-[10px] text-slate-600"></i>
+                    <span class="px-2.5 py-1 rounded-full bg-gold-500/20 text-gold-400 border border-gold-500/40 font-semibold">2. Easypaisa Transfer</span>
+                    <i class="fa-solid fa-chevron-right text-[10px] text-slate-600"></i>
+                    <span class="px-2.5 py-1 rounded-full bg-navy-800 text-slate-400 border border-slate-700">3. Verification</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Left Column: Account Details & Instructions -->
+                <div class="lg:col-span-5 space-y-5">
+                    <!-- Easypaisa Official Recipient Card -->
+                    <div class="glass-card-gold rounded-3xl p-6 relative overflow-hidden">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-xs font-bold">
+                                <i class="fa-solid fa-mobile-screen-button"></i> Easypaisa Official
+                            </span>
+                            <span id="paySelectedPlanBadge" class="text-xs font-bold text-gold-400 uppercase tracking-wider">BASIC PLAN</span>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="p-3.5 rounded-2xl bg-navy-950/90 border border-slate-800">
+                                <p class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Payment Method</p>
+                                <p class="text-base font-bold text-emerald-400 mt-0.5 flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check"></i> Easypaisa
+                                </p>
+                            </div>
+
+                            <div class="p-3.5 rounded-2xl bg-navy-950/90 border border-gold-500/30">
+                                <div class="flex items-center justify-between gap-2">
+                                    <div>
+                                        <p class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Account Number</p>
+                                        <p id="easypaisaNumberText" class="font-display text-xl sm:text-2xl font-extrabold text-white tracking-wider mt-0.5">03061887881</p>
+                                    </div>
+                                    <button type="button" onclick="copyEasypaisaNumber()" class="btn-gold px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 shrink-0 cursor-pointer">
+                                        <i class="fa-regular fa-copy"></i>
+                                        <span>Copy</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="p-3.5 rounded-2xl bg-navy-950/90 border border-slate-800">
+                                    <p class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Account Name</p>
+                                    <p class="text-sm font-bold text-white mt-0.5">Safia Rasheed</p>
+                                </div>
+                                <div class="p-3.5 rounded-2xl bg-navy-950/90 border border-slate-800">
+                                    <p class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Payment Amount</p>
+                                    <p id="payAmountDisplay" class="text-base font-extrabold text-gold-400 mt-0.5">PKR 350</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Beautiful Payment Instructions Card -->
+                    <div class="glass-card rounded-3xl p-6">
+                        <h3 class="font-display text-base font-bold text-white mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-list-ol text-gold-400"></i>
+                            <span>Payment Instructions</span>
+                        </h3>
+                        <ol class="space-y-3 text-xs sm:text-sm text-slate-300">
+                            <li class="flex items-start gap-3">
+                                <span class="w-6 h-6 rounded-full bg-electric-500/20 border border-electric-500/40 text-electric-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">1</span>
+                                <span>Open <strong>Easypaisa</strong> app on your mobile device.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-6 h-6 rounded-full bg-electric-500/20 border border-electric-500/40 text-electric-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">2</span>
+                                <span>Transfer the selected plan amount (<strong id="instructionAmountText" class="text-gold-400">PKR 350</strong>) to <strong>03061887881</strong> (Safia Rasheed).</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-6 h-6 rounded-full bg-electric-500/20 border border-electric-500/40 text-electric-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">3</span>
+                                <span>Copy your <strong>Transaction ID (TID)</strong> from the Easypaisa receipt.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-6 h-6 rounded-full bg-electric-500/20 border border-electric-500/40 text-electric-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">4</span>
+                                <span>Paste the transaction ID into the payment box.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-6 h-6 rounded-full bg-electric-500/20 border border-electric-500/40 text-electric-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">5</span>
+                                <span>Upload your payment proof screenshot.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-6 h-6 rounded-full bg-gold-500/20 border border-gold-500/40 text-gold-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">6</span>
+                                <span>Press <strong>Confirm Payment</strong> to submit for verification.</span>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Right Column: Payment Proof Submission Form -->
+                <div class="lg:col-span-7">
+                    <div class="glass-card rounded-3xl p-6 sm:p-8">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+                            <div>
+                                <h2 class="font-display text-xl font-bold text-white">Submit Payment Proof</h2>
+                                <p class="text-xs text-slate-400 mt-0.5">Manual verification ensures accurate membership activation.</p>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[11px] font-semibold">
+                                ~30 Min Review
+                            </span>
+                        </div>
+
+                        <form id="paymentProofForm" onsubmit="handlePaymentSubmit(event)" class="space-y-5">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Selected Plan</label>
+                                    <input type="text" id="payFormPlanName" readonly class="fintech-input w-full px-4 py-3 rounded-xl text-sm font-bold text-gold-400 bg-navy-950/90 cursor-not-allowed">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Payment Amount (PKR)</label>
+                                    <input type="text" id="payFormAmount" readonly class="fintech-input w-full px-4 py-3 rounded-xl text-sm font-bold text-white bg-navy-950/90 cursor-not-allowed">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Easypaisa Transaction ID (TID) <span class="text-gold-400">*</span></label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                        <i class="fa-solid fa-hashtag text-xs"></i>
+                                    </span>
+                                    <input type="text" id="transactionIdInput" required minlength="6" maxlength="25" placeholder="e.g. 29481057392" class="fintech-input w-full pl-10 pr-4 py-3 rounded-xl text-sm tracking-wider font-mono">
+                                </div>
+                                <p class="text-[11px] text-slate-400 mt-1">Enter the exact 11-digit Transaction ID shown on your Easypaisa receipt.</p>
+                            </div>
+
+                            <!-- Payment Receipt Upload Box -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Upload Payment Receipt Screenshot <span class="text-gold-400">*</span></label>
+                                <label for="receiptFileInput" id="receiptDropzone" class="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-electric-500/40 hover:border-gold-400 rounded-2xl bg-navy-950/70 hover:bg-navy-900/80 transition cursor-pointer p-4 text-center">
+                                    <div id="receiptPlaceholder" class="space-y-2">
+                                        <div class="w-11 h-11 rounded-full bg-electric-500/15 text-electric-400 flex items-center justify-center mx-auto">
+                                            <i class="fa-solid fa-cloud-arrow-up text-lg"></i>
+                                        </div>
+                                        <p class="text-xs sm:text-sm font-semibold text-white">Click to upload Easypaisa receipt</p>
+                                        <p class="text-[11px] text-slate-400">PNG, JPG, or WEBP screenshot (Max 5MB)</p>
+                                    </div>
+                                    <div id="receiptPreviewBox" class="hidden flex items-center gap-3 text-left w-full max-w-md bg-navy-800/90 p-3 rounded-xl border border-emerald-500/40">
+                                        <div class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                                            <i class="fa-solid fa-file-image text-lg"></i>
+                                        </div>
+                                        <div class="min-w-0 flex-1">
+                                            <p id="receiptFileName" class="text-xs font-bold text-white truncate">receipt.jpg</p>
+                                            <p id="receiptFileSize" class="text-[11px] text-emerald-400">Ready for upload</p>
+                                        </div>
+                                        <span class="text-xs text-gold-400 font-semibold">Change</span>
+                                    </div>
+                                    <input id="receiptFileInput" type="file" accept="image/*" class="hidden" onchange="handleReceiptUpload(event)">
+                                </label>
+                            </div>
+
+                            <!-- Disclaimer -->
+                            <div class="p-3.5 rounded-2xl bg-navy-950/90 border border-slate-800 text-[11px] text-slate-400 leading-relaxed">
+                                <i class="fa-solid fa-shield-halved text-electric-400 mr-1"></i>
+                                Payments are never approved automatically. Your submitted TID and receipt will enter <strong class="text-amber-300">Submitted / Under Review</strong> status until verified.
+                            </div>
+
+                            <button type="submit" id="confirmPaymentBtn" class="btn-gold w-full py-4 rounded-xl text-sm uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 cursor-pointer">
+                                <i class="fa-solid fa-circle-check"></i>
+                                <span>Confirm Payment</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================================================================= -->
+        <!-- 4. 30-MINUTE VERIFICATION PENDING SCREEN (Final Step)             -->
+        <!-- ================================================================= -->
+        <section id="view-pending" class="hidden animate-fade-in max-w-2xl mx-auto">
+            <div class="glass-card-gold rounded-3xl p-6 sm:p-10 text-center relative overflow-hidden">
+                <div class="w-20 h-20 rounded-full bg-amber-500/20 border-2 border-gold-400 text-gold-400 flex items-center justify-center text-3xl mx-auto mb-5 shadow-lg">
+                    <i class="fa-solid fa-hourglass-half animate-pulse"></i>
+                </div>
+
+                <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-bold uppercase tracking-wider">
+                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                    Status: Submitted • Awaiting Verification
+                </span>
+
+                <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-white mt-4">
+                    Please Wait Up to 30 Minutes
+                </h2>
+
+                <p class="text-xs sm:text-sm text-slate-300 mt-3 leading-relaxed max-w-lg mx-auto">
+                    Your payment details have been submitted successfully. Please wait up to <strong>30 minutes</strong> for payment verification and membership approval.
+                </p>
+
+                <!-- 30-Minute Live Countdown Box -->
+                <div class="mt-6 p-5 rounded-2xl bg-navy-950/90 border border-gold-500/30 max-w-sm mx-auto">
+                    <p class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Estimated Verification Window</p>
+                    <p id="verificationCountdownTimer" class="font-display text-3xl sm:text-4xl font-extrabold text-gold-400 tracking-wider mt-1">30:00</p>
+                    <p class="text-[11px] text-slate-400 mt-1">Manual Easypaisa receipt review in progress</p>
+                </div>
+
+                <!-- Submitted Receipt Summary -->
+                <div class="mt-6 p-4 sm:p-5 rounded-2xl bg-navy-950/80 border border-slate-800 text-left space-y-2.5 text-xs sm:text-sm">
+                    <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                        <span class="text-slate-400">Account Holder:</span>
+                        <strong id="pendingSummaryUser" class="text-white">—</strong>
+                    </div>
+                    <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                        <span class="text-slate-400">Selected Plan:</span>
+                        <strong id="pendingSummaryPlan" class="text-gold-400">—</strong>
+                    </div>
+                    <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                        <span class="text-slate-400">Amount Paid:</span>
+                        <strong id="pendingSummaryAmount" class="text-white">—</strong>
+                    </div>
+                    <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                        <span class="text-slate-400">Transaction ID (TID):</span>
+                        <strong id="pendingSummaryTid" class="text-emerald-400 font-mono">—</strong>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-slate-400">Receipt Proof:</span>
+                        <strong id="pendingSummaryReceipt" class="text-slate-200 truncate max-w-[180px]">—</strong>
+                    </div>
+                </div>
+
+                <!-- 4-Stage Payment Status Bar -->
+                <div class="mt-6">
+                    <p class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold mb-2.5">Verification Status</p>
+                    <div class="flex flex-wrap items-center justify-center gap-2">
+                        <span class="px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">Submitted</span>
+                        <span class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-navy-950/60 text-slate-500 border border-slate-800">Under Review</span>
+                        <span class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-navy-950/60 text-slate-500 border border-slate-800">Approved</span>
+                        <span class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-navy-950/60 text-slate-500 border border-slate-800">Rejected</span>
+                    </div>
+                </div>
+
+                <div class="mt-7 flex flex-col sm:flex-row items-center justify-center gap-3">
+                    <button type="button" onclick="switchView('payment')" class="w-full sm:w-auto px-5 py-3 rounded-xl bg-navy-800 hover:bg-navy-700 text-slate-200 border border-slate-700 text-xs font-bold uppercase tracking-wider transition cursor-pointer">
+                        <i class="fa-solid fa-pen-to-square mr-1.5"></i> Edit Payment Details
+                    </button>
+                    <button type="button" onclick="handleLogout()" class="w-full sm:w-auto btn-gold px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider cursor-pointer">
+                        <i class="fa-solid fa-right-from-bracket mr-1.5"></i> Back to Login
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===================================================================== -->
+    <!-- 2. PLAN POPUP MODAL AFTER SIGNUP                                      -->
+    <!-- ===================================================================== -->
+    <div id="planSelectionModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-950/85 backdrop-blur-md overflow-y-auto">
+        <div class="glass-card-gold rounded-3xl max-w-4xl w-full p-6 sm:p-8 my-auto animate-slide-up relative">
+            <!-- Close Button (Only if user already has an active view) -->
+            <button id="closePlanModalBtn" onclick="closePlanModal()" class="hidden absolute top-5 right-5 w-9 h-9 rounded-full bg-navy-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center max-w-2xl mx-auto mb-6">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-500/20 border border-gold-500/40 text-gold-400 text-xs font-bold uppercase tracking-wider">
+                    <i class="fa-solid fa-crown"></i> Membership Selection
+                </span>
+                <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-white mt-2">Choose Your 7-Day Plan</h2>
+                <p class="text-xs sm:text-sm text-slate-300 mt-1">
+                    Select a membership tier below to unlock daily micro-tasks and proceed to Easypaisa payment verification.
+                </p>
+            </div>
+
+            <!-- Two Plan Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- BASIC PLAN CARD -->
+                <div class="glass-card rounded-3xl p-6 flex flex-col justify-between border border-electric-500/30 hover:border-electric-400 transition group">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-3 py-1 rounded-full bg-electric-500/20 text-electric-400 text-xs font-extrabold tracking-wider">STARTER TIER</span>
+                            <span class="text-xs text-slate-400 font-semibold">7 Days Cycle</span>
+                        </div>
+                        <h3 class="font-display text-2xl font-extrabold text-white">BASIC PLAN</h3>
+                        <div class="mt-3 mb-5 flex items-baseline gap-1.5">
+                            <span class="font-display text-3xl sm:text-4xl font-extrabold text-white">PKR 350</span>
+                            <span class="text-xs text-slate-400">/ 7 Days</span>
+                        </div>
+
+                        <ul class="space-y-3 text-xs sm:text-sm text-slate-300 border-t border-slate-800 pt-4">
+                            <li class="flex items-center justify-between">
+                                <span class="text-slate-400"><i class="fa-solid fa-tag text-electric-400 mr-2"></i>Membership Price:</span>
+                                <strong class="text-white">PKR 350</strong>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span class="text-slate-400"><i class="fa-solid fa-calendar-days text-electric-400 mr-2"></i>Duration:</span>
+                                <strong class="text-white">7 Days</strong>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span class="text-slate-400"><i class="fa-solid fa-chart-line text-electric-400 mr-2"></i>Daily Earning Potential:</span>
+                                <strong class="text-electric-400">Up to PKR 120*</strong>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span class="text-slate-400"><i class="fa-solid fa-coins text-electric-400 mr-2"></i>Total Potential Over 7 Days:</span>
+                                <strong class="text-emerald-400">Up to PKR 840*</strong>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button type="button" onclick="selectPlan('BASIC PLAN', 350, 120, 840)" class="btn-blue w-full py-3.5 rounded-xl text-sm uppercase tracking-wider mt-6 flex items-center justify-center gap-2 cursor-pointer">
+                        <span>Select Plan</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- PREMIUM PLAN CARD -->
+                <div class="glass-card-gold rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden border-2 border-gold-400/70 shadow-xl">
+                    <div class="absolute top-0 right-0 bg-gradient-to-l from-gold-500 to-amber-500 text-navy-950 text-[10px] font-extrabold uppercase tracking-wider px-3.5 py-1 rounded-bl-2xl">
+                        Most Popular
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-3 py-1 rounded-full bg-gold-500/20 text-gold-400 text-xs font-extrabold tracking-wider">PRO TIER</span>
+                            <span class="text-xs text-slate-300 font-semibold">7 Days Cycle</span>
+                        </div>
+                        <h3 class="font-display text-2xl font-extrabold text-gold-gradient">PREMIUM PLAN</h3>
+                        <div class="mt-3 mb-5 flex items-baseline gap-1.5">
+                            <span class="font-display text-3xl sm:text-4xl font-extrabold text-white">PKR 550</span>
+                            <span class="text-xs text-slate-400">/ 7 Days</span>
+                        </div>
+
+                        <ul class="space-y-3 text-xs sm:text-sm text-slate-200 border-t border-slate-800 pt-4">
+                            <li class="flex items-center justify-between">
+                                <span class="text-slate-400"><i class="fa-solid fa-tag text-gold-400 mr-2"></i>Membership Price:</span>
+                                <strong class="text-white">PKR 550</strong>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span class="text-slate-400"><i class="fa-solid fa-calendar-days text-gold-400 mr-2"></i>Duration:</span>
+                                <strong class="text-white">7 Days</strong>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span class="text-slate-400"><i class="fa-solid fa-chart-line text-gold-400 mr-2"></i>Daily Earning Potential:</span>
+                                <strong class="text-gold-400">Up to PKR 180*</strong>
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <span class="text-slate-400"><i class="fa-solid fa-coins text-gold-400 mr-2"></i>Total Potential Over 7 Days:</span>
+                                <strong class="text-emerald-400">Up to PKR 1,260*</strong>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button type="button" onclick="selectPlan('PREMIUM PLAN', 550, 180, 1260)" class="btn-gold w-full py-3.5 rounded-xl text-sm uppercase tracking-wider mt-6 flex items-center justify-center gap-2 cursor-pointer">
+                        <span>Select Plan</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Transparent Earnings Estimate Disclaimer -->
+            <div class="mt-6 p-3.5 rounded-2xl bg-navy-950/90 border border-slate-800 text-[11px] sm:text-xs text-slate-400 leading-relaxed flex items-start gap-2.5">
+                <i class="fa-solid fa-circle-exclamation text-gold-400 mt-0.5 shrink-0"></i>
+                <p>
+                    <strong class="text-slate-200">*Earnings Disclaimer:</strong> Displayed daily and 7-day figures are <strong>estimates</strong> of maximum earning potential, not guaranteed returns. Actual rewards depend on eligible completed tasks and verified funding approval.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- PAYMENT SUBMISSION SUCCESS POPUP MODAL                                -->
+    <!-- ===================================================================== -->
+    <div id="paymentSuccessModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-950/85 backdrop-blur-md">
+        <div class="glass-card-gold rounded-3xl max-w-md w-full p-6 sm:p-8 text-center animate-slide-up">
+            <div class="w-16 h-16 rounded-full bg-emerald-500/20 border-2 border-emerald-400 text-emerald-400 flex items-center justify-center text-3xl mx-auto mb-4 shadow-lg">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-bold">
+                Status: Submitted (Pending Verification)
+            </span>
+            <h3 class="font-display text-xl sm:text-2xl font-bold text-white mt-3">Payment Proof Received</h3>
+            <p class="text-xs sm:text-sm text-slate-300 mt-3 leading-relaxed">
+                "Your payment details have been submitted successfully. Please wait up to 30 minutes for payment verification and membership approval."
+            </p>
+            <div class="mt-4 p-3 rounded-xl bg-navy-950/90 border border-slate-800 text-xs text-slate-400">
+                Transaction ID: <strong id="modalConfirmTid" class="text-gold-400 font-mono">—</strong>
+            </div>
+            <button type="button" onclick="proceedToVerificationWaitScreen()" class="btn-gold w-full py-3.5 rounded-xl text-sm uppercase tracking-wider mt-6 cursor-pointer">
+                View Verification Status (30 Min Wait)
+            </button>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- FORGOT PASSWORD MODAL                                                 -->
+    <!-- ===================================================================== -->
+    <div id="forgotPasswordModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-950/85 backdrop-blur-md">
+        <div class="glass-card rounded-3xl max-w-md w-full p-6 sm:p-7 animate-slide-up">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-display text-lg font-bold text-white">Reset Password</h3>
+                <button onclick="closeForgotPasswordModal()" class="text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <p class="text-xs text-slate-300 mb-4">Enter your registered email address and we will send password reset instructions.</p>
+            <form onsubmit="handleForgotPasswordSubmit(event)" class="space-y-4">
+                <input type="email" id="resetEmailInput" required placeholder="your@email.com" class="fintech-input w-full px-4 py-3 rounded-xl text-sm">
+                <button type="submit" class="btn-gold w-full py-3 rounded-xl text-xs uppercase tracking-wider cursor-pointer">
+                    Send Reset Link
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- VANILLA JAVASCRIPT APPLICATION LOGIC (Auth -> Plan -> Payment)        -->
+    <!-- ===================================================================== -->
+    <script>
+        // Application State (Login/Signup -> Plan Selection -> Easypaisa Payment -> 30-Min Wait)
+        const appState = {
+            isAuthenticated: false,
+            currentView: 'auth',
+            user: {
+                username: 'guest_pk',
+                fullName: 'Member',
+                email: 'member@taskearn.pk',
+                referral: ''
+            },
+            plan: {
+                name: 'BASIC PLAN',
+                price: 350,
+                dailyPotential: 120,
+                totalPotential: 840
+            },
+            payment: {
+                status: 'Submitted',
+                tid: '',
+                receiptName: ''
+            },
+            countdownInterval: null,
+            remainingSeconds: 30 * 60
+        };
+
+        // Initialize app directly on Login/Signup view
+        document.addEventListener('DOMContentLoaded', () => {
+            switchView('auth');
+        });
+
+        /* ------------------------------------------------------------------ */
+        /* TOAST NOTIFICATION HELPER                                          */
+        /* ------------------------------------------------------------------ */
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            const styles = {
+                success: 'bg-emerald-950/95 border-emerald-500/50 text-emerald-200',
+                error: 'bg-red-950/95 border-red-500/50 text-red-200',
+                warning: 'bg-amber-950/95 border-amber-500/50 text-amber-200',
+                info: 'bg-navy-900/95 border-electric-500/50 text-slate-100'
+            };
+
+            const icons = {
+                success: 'fa-circle-check text-emerald-400',
+                error: 'fa-circle-exclamation text-red-400',
+                warning: 'fa-triangle-exclamation text-amber-400',
+                info: 'fa-circle-info text-electric-400'
+            };
+
+            toast.className = `pointer-events-auto flex items-start gap-3 p-3.5 rounded-2xl border shadow-2xl backdrop-blur-md text-xs font-medium animate-slide-up ${styles[type] || styles.info}`;
+            toast.innerHTML = `
+                <i class="fa-solid ${icons[type] || icons.info} text-sm mt-0.5 shrink-0"></i>
+                <span class="flex-1 leading-relaxed">${message}</span>
+            `;
+
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(8px)';
+                toast.style.transition = 'all 0.25s ease';
+                setTimeout(() => toast.remove(), 260);
+            }, 3800);
+        }
+
+        /* ------------------------------------------------------------------ */
+        /* NAVIGATION & VIEW SWITCHING                                        */
+        /* ------------------------------------------------------------------ */
+        function switchView(viewName) {
+            appState.currentView = viewName;
+
+            const views = ['auth', 'payment', 'pending'];
+            views.forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                if (el) el.classList.add('hidden');
+            });
+
+            const activeEl = document.getElementById(`view-${viewName}`);
+            if (activeEl) activeEl.classList.remove('hidden');
+
+            // Show/hide minimal top navbar when logged in
+            const navbar = document.getElementById('appNavbar');
+            if (appState.isAuthenticated && viewName !== 'auth') {
+                navbar.classList.remove('hidden');
+            } else {
+                navbar.classList.add('hidden');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function handlePromoDepositClick() {
+            if (!appState.isAuthenticated) {
+                toggleAuthMode('signup');
+                showToast('Create your account or log in first to select your plan and deposit.', 'info');
+                return;
+            }
+            openPlanModal();
+        }
+
+        /* ------------------------------------------------------------------ */
+        /* 1. AUTHENTICATION (LOGIN & SIGNUP)                                 */
+        /* ------------------------------------------------------------------ */
+        function toggleAuthMode(mode) {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            const tabLogin = document.getElementById('tabLoginBtn');
+            const tabSignup = document.getElementById('tabSignupBtn');
+
+            if (mode === 'login') {
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                tabLogin.className = 'py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 bg-gradient-to-r from-electric-600 to-electric-500 text-white shadow-md';
+                tabSignup.className = 'py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 text-slate-400 hover:text-white';
+            } else {
+                signupForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+                tabSignup.className = 'py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 bg-gradient-to-r from-gold-500 to-amber-500 text-navy-950 shadow-md';
+                tabLogin.className = 'py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 text-slate-400 hover:text-white';
+            }
+        }
+
+        function togglePasswordVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        function handleSignupSubmit(e) {
+            e.preventDefault();
+            const username = document.getElementById('signupUsername').value.trim();
+            const fullName = document.getElementById('signupFullName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const pass = document.getElementById('signupPassword').value;
+            const confirmPass = document.getElementById('signupConfirmPassword').value;
+            const referral = document.getElementById('signupReferral').value.trim();
+
+            if (pass !== confirmPass) {
+                showToast('Passwords do not match. Please re-enter carefully.', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('signupSubmitBtn');
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> <span>Creating Account...</span>';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = '<span>Create Account &amp; Choose Plan</span> <i class="fa-solid fa-arrow-right"></i>';
+                btn.disabled = false;
+
+                appState.isAuthenticated = true;
+                appState.user = { username, fullName, email, referral };
+                document.getElementById('navUserName').textContent = fullName;
+
+                showToast(`Welcome, ${fullName}! Please select your 7-day membership plan.`, 'success');
+                
+                // Step 2: Open Plan Popup immediately after signup
+                openPlanModal(true);
+            }, 600);
+        }
+
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+            const identifier = document.getElementById('loginIdentifier').value.trim();
+            if (!identifier) return;
+
+            const btn = document.getElementById('loginSubmitBtn');
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> <span>Authenticating...</span>';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = '<span>Login &amp; Continue</span> <i class="fa-solid fa-arrow-right"></i>';
+                btn.disabled = false;
+
+                appState.isAuthenticated = true;
+                const displayName = identifier.includes('@') ? identifier.split('@')[0] : identifier;
+                appState.user.username = displayName;
+                appState.user.fullName = displayName.charAt(0).toUpperCase() + displayName.slice(1);
+                
+                document.getElementById('navUserName').textContent = appState.user.fullName;
+
+                showToast(`Signed in as ${appState.user.fullName}. Select your plan to continue.`, 'success');
+                openPlanModal(true);
+            }, 550);
+        }
+
+        function handleLogout() {
+            appState.isAuthenticated = false;
+            if (appState.countdownInterval) {
+                clearInterval(appState.countdownInterval);
+            }
+            switchView('auth');
+            showToast('Signed out safely.', 'info');
+        }
+
+        function openForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').classList.remove('hidden');
+        }
+
+        function closeForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').classList.add('hidden');
+        }
+
+        function handleForgotPasswordSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('resetEmailInput').value.trim();
+            closeForgotPasswordModal();
+            showToast(`Password reset instructions sent to ${email}.`, 'success');
+        }
+
+        /* ------------------------------------------------------------------ */
+        /* 2. PLAN SELECTION POPUP                                            */
+        /* ------------------------------------------------------------------ */
+        function openPlanModal(isForcedAfterAuth = false) {
+            const modal = document.getElementById('planSelectionModal');
+            const closeBtn = document.getElementById('closePlanModalBtn');
+            if (isForcedAfterAuth) {
+                closeBtn.classList.add('hidden');
+            } else {
+                closeBtn.classList.remove('hidden');
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function closePlanModal() {
+            document.getElementById('planSelectionModal').classList.add('hidden');
+        }
+
+        function selectPlan(planName, price, dailyPotential, totalPotential) {
+            appState.plan = { name: planName, price, dailyPotential, totalPotential };
+            closePlanModal();
+
+            // Populate Easypaisa Payment Screen with selected plan
+            document.getElementById('paySelectedPlanBadge').textContent = planName;
+            document.getElementById('payAmountDisplay').textContent = `PKR ${price}`;
+            document.getElementById('instructionAmountText').textContent = `PKR ${price}`;
+            document.getElementById('payFormPlanName').value = planName;
+            document.getElementById('payFormAmount').value = `PKR ${price}`;
+            document.getElementById('navPlanBadge').textContent = `${planName} • Payment Step`;
+
+            switchView('payment');
+            showToast(`${planName} selected. Complete your Easypaisa transfer below.`, 'info');
+        }
+
+        /* ------------------------------------------------------------------ */
+        /* 3. EASYPAISA PAYMENT SCREEN & 30-MIN VERIFICATION WAIT             */
+        /* ------------------------------------------------------------------ */
+        function copyEasypaisaNumber() {
+            const num = '03061887881';
+            const tempInput = document.createElement('input');
+            tempInput.value = num;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            showToast('Easypaisa Account Number (03061887881) copied to clipboard!', 'success');
+        }
+
+        function handleReceiptUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            appState.payment.receiptName = file.name;
+            document.getElementById('receiptPlaceholder').classList.add('hidden');
+            document.getElementById('receiptPreviewBox').classList.remove('hidden');
+            document.getElementById('receiptFileName').textContent = file.name;
+            document.getElementById('receiptFileSize').textContent = `${(file.size / 1024).toFixed(1)} KB • Attached`;
+            showToast('Payment receipt screenshot attached.', 'success');
+        }
+
+        function handlePaymentSubmit(e) {
+            e.preventDefault();
+            const tid = document.getElementById('transactionIdInput').value.trim();
+            const fileInput = document.getElementById('receiptFileInput');
+
+            if (!tid) {
+                showToast('Please paste your Easypaisa Transaction ID.', 'error');
+                return;
+            }
+
+            if (!fileInput.files || fileInput.files.length === 0) {
+                showToast('Please upload your payment receipt screenshot before confirming.', 'warning');
+                return;
+            }
+
+            const btn = document.getElementById('confirmPaymentBtn');
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> <span>Submitting Payment Proof...</span>';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> <span>Confirm Payment</span>';
+                btn.disabled = false;
+
+                appState.payment.status = 'Submitted';
+                appState.payment.tid = tid;
+
+                document.getElementById('modalConfirmTid').textContent = tid;
+                document.getElementById('paymentSuccessModal').classList.remove('hidden');
+            }, 700);
+        }
+
+        function proceedToVerificationWaitScreen() {
+            document.getElementById('paymentSuccessModal').classList.add('hidden');
+
+            // Populate 30-Minute Verification Pending Summary
+            document.getElementById('pendingSummaryUser').textContent = appState.user.fullName;
+            document.getElementById('pendingSummaryPlan').textContent = appState.plan.name;
+            document.getElementById('pendingSummaryAmount').textContent = `PKR ${appState.plan.price}`;
+            document.getElementById('pendingSummaryTid').textContent = appState.payment.tid;
+            document.getElementById('pendingSummaryReceipt').textContent = appState.payment.receiptName || 'Receipt Uploaded';
+            document.getElementById('navPlanBadge').textContent = `${appState.plan.name} • Submitted`;
+
+            switchView('pending');
+            startVerificationCountdown();
+        }
+
+        function startVerificationCountdown() {
+            if (appState.countdownInterval) {
+                clearInterval(appState.countdownInterval);
+            }
+            appState.remainingSeconds = 30 * 60;
+            updateCountdownDisplay();
+
+            appState.countdownInterval = setInterval(() => {
+                if (appState.remainingSeconds > 0) {
+                    appState.remainingSeconds--;
+                    updateCountdownDisplay();
+                } else {
+                    clearInterval(appState.countdownInterval);
+                }
+            }, 1000);
+        }
+
+        function updateCountdownDisplay() {
+            const mins = Math.floor(appState.remainingSeconds / 60);
+            const secs = appState.remainingSeconds % 60;
+            const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            const el = document.getElementById('verificationCountdownTimer');
+            if (el) el.textContent = formatted;
+        }
+    </script>
+</body>
+</html>
